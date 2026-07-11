@@ -10,6 +10,7 @@ import java.util.Optional;
 @Service
 public class JobServiceImpl implements JobService
 {
+    
     private final JobRepository jobRepository;
 
     public JobServiceImpl(JobRepository jobRepository)
@@ -33,6 +34,31 @@ public class JobServiceImpl implements JobService
     public Optional<Job> getJobById(Long id)
     {
         return jobRepository.findById(id);
+    }
+
+    @Override
+    public Job updateJob(Long id, Job updatedJob)
+    {
+        Optional<Job> optionalJob = jobRepository.findById(id);
+
+        if(optionalJob.isPresent())
+        {
+            Job existingJob = optionalJob.get();
+
+            existingJob.setTitle(updatedJob.getTitle());
+            existingJob.setCompany(updatedJob.getCompany());
+            existingJob.setLocation(updatedJob.getLocation());
+            existingJob.setDescription(updatedJob.getDescription());
+            existingJob.setSalary(updatedJob.getSalary());
+
+            return jobRepository.save(existingJob);
+
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
 }

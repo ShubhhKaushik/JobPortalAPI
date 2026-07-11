@@ -51,4 +51,18 @@ public class JobController
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Job> updatedJob(@PathVariable Long id, @RequestBody Job updatedJob)
+    {
+        Job job = jobService.updateJob(id,updatedJob);
+
+        if(job != null)
+        {
+            return ResponseEntity.ok(job);
+        }else
+        {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
